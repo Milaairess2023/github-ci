@@ -7,9 +7,51 @@
 	"item": [
 		{
 			"name": "Viacep-consulta",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function zipCode() {\r",
+							"\r",
+							"var zipCode = [\"08740-040\", \"08570-160\",\"08573-390\",\"08620-080\",\"08690-804\",\"08655-195\",\"08625-275\",\"08738-300\",\"08774-230\",\"08751-640\",\"08725-745\",\"08750-510\",\"08850-230\",\"08750-100\",\"08795-120\",\"08830-670\",\"08770-610\",\"08717-590\",\"08774-450\",\"08762-260\",\"08717-321\"];\r",
+							"\r",
+							"var randomItem = zipCode[Math.floor(Math.random() * zipCode.length)];\r",
+							"\r",
+							"return randomItem;\r",
+							"}\r",
+							"\r",
+							"pm.variables.set(\"ZipCode\", zipCode());"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{ZipCode}}/json/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{ZipCode}}",
+						"json",
+						""
+					]
+				}
 			},
 			"response": []
 		}
